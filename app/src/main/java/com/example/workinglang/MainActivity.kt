@@ -1,6 +1,8 @@
 package com.example.workinglang
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
@@ -9,11 +11,23 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var inputText: EditText
+    private lateinit var translateButton: Button
+    private lateinit var translatedTextView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        translateText("Hello World! Good to meet you, will you sit for tea?")
+        inputText = findViewById(R.id.input_text)
+        translateButton = findViewById(R.id.translate_button)
+        translatedTextView = findViewById(R.id.translated_text_view)
+
+        // Set the button click listener
+        translateButton.setOnClickListener {
+            val textToTranslate = inputText.text.toString()
+            translateText(textToTranslate)
+        }
     }
 
     private fun translateText(text: String) {
@@ -36,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUIWithTranslatedText(translatedText: String?) {
-        val textView: TextView = findViewById(R.id.translated_text_view)
-        textView.text = translatedText ?: "Translation failed"
+        translatedTextView.text = translatedText ?: "Translation failed"
     }
 }
